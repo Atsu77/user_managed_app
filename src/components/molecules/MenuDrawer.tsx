@@ -1,3 +1,4 @@
+import React, { memo, VFC } from "react";
 import { Button } from "@chakra-ui/button";
 import {
   Drawer,
@@ -5,7 +6,6 @@ import {
   DrawerContent,
   DrawerOverlay,
 } from "@chakra-ui/modal";
-import React, { memo, VFC } from "react";
 
 type Props = {
   onClose: () => void;
