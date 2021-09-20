@@ -3,22 +3,28 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
 import { User } from "../types/api/user";
+import { useMessage } from "./useMessages";
 
 export const useAuth = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const { showMessage } = useMessage();
+
   const login = useCallback((id: string) => {
     setLoading(true);
     axios
       .get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
       .then((res) => {
         if (res.data) {
+          showMessage({ title: "ログインしました", status: "success" });
           history.push("/home");
         } else {
-          alert("ユーザーが見つかりません");
+          showMessage({ title: "ユーザーが見つかりません", status: "error" });
         }
       })
-      .catch(() => alert("ログインできません"))
+      .catch(() => {
+        showMessage({ title: "ログインに失敗しました", status: "error" });
+      })
       .finally(() => setLoading(false));
   }, []);
   return { login, loading };
